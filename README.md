@@ -1,2 +1,3 @@
 # switch-streaming
-ns switch http streaming
+
+ns switch to http streaming
