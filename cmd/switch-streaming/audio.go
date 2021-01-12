@@ -82,19 +82,16 @@ func audioWorker(ctx context.Context, audioChannelStore *sync.Map) {
 					log.Println("Audio Stopping...")
 					return nil
 				default:
-					{
-						clientCount := 0
-						audioChannelStore.Range(func(_, _ interface{}) bool {
-							clientCount++
-							return true
-						})
-						if clientCount == 0 {
-							time.Sleep(time.Second)
-							recordDev.Close()
-							continue
-						}
+					clientCount := 0
+					audioChannelStore.Range(func(_, _ interface{}) bool {
+						clientCount++
+						return true
+					})
+					if clientCount == 0 {
+						time.Sleep(time.Second)
+						recordDev.Close()
+						continue
 					}
-
 					buff := make([]byte, bodySize+44)
 					copy(buff, headerBytes)
 					err = recordDev.Read(buff[len(headerBytes):])

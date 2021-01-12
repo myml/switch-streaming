@@ -1,5 +1,4 @@
-<canvas id="canvas" width="1920" height="1080" hidden></canvas>
-<img src="./video.mjpeg" />
+<canvas id="canvas" width="1920" height="1080"></canvas>
 <script>
   const ws_herf = location.origin.replace("http", "ws") + location.pathname;
   const videoCache = new Array();
@@ -63,7 +62,7 @@
     }
     play();
   }
-  // video();
+  video();
   canvas.addEventListener("click", () => canvas.requestFullscreen());
   canvas.addEventListener("click", () => audio(), { once: true });
 </script>

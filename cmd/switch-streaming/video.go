@@ -70,20 +70,30 @@ func videoWorker(ctx context.Context, videoChannelStore *sync.Map) {
 	if err != nil {
 		panic(err)
 	}
+	var cfg *v4l.DeviceConfig
 	for i := range cfgs {
 		if cfgs[i].Format == mjpeg.FourCC && cfgs[i].FPS.N <= 30 {
-			log.Printf("Video config %+v \n", cfgs[i])
-			cam.SetConfig(cfgs[i])
+			cfg = &cfgs[i]
 			break
 		}
 	}
+	if cfg == nil {
+		panic("Video not find config")
+	}
+	log.Printf("Video config %+v \n", cfg)
+	err = cam.SetConfig(*cfg)
+	if err != nil {
+		panic(err)
+	}
+	ticker := time.NewTicker(time.Second / time.Duration(cfg.FPS.N))
+	defer ticker.Stop()
 	turnoff := true
 	for {
 		select {
 		case <-ctx.Done():
 			log.Println("Video Stopping...")
 			return
-		default:
+		case <-ticker.C:
 			clientCount := 0
 			videoChannelStore.Range(func(_, _ interface{}) bool {
 				clientCount++
