@@ -1,7 +1,3 @@
-# github.com/go-audio/audio v1.0.0
-## explicit
-# github.com/go-audio/wav v1.0.0
-## explicit
 # github.com/gorilla/websocket v1.4.2
 ## explicit
 github.com/gorilla/websocket
@@ -16,5 +12,3 @@ github.com/yobert/alsa/alsatype
 github.com/yobert/alsa/color
 github.com/yobert/alsa/pcm
 github.com/yobert/alsa/pcm/state
-# github.com/youpy/go-wav v0.1.0
-## explicit

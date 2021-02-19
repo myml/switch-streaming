@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"embed"
 	"log"
 	"net/http"
 	"os"
@@ -10,6 +11,9 @@ import (
 
 	_ "net/http/pprof"
 )
+
+//go:embed index.html
+var indexHTML embed.FS
 
 func main() {
 	var videoChannelStore sync.Map
@@ -29,7 +33,7 @@ func main() {
 		wg.Done()
 	}()
 
-	http.Handle("/", http.FileServer(http.Dir("./static")))
+	http.Handle("/", http.FileServer(http.FS(indexHTML)))
 	http.HandleFunc("/audio", audio(ctx, &audioChannelStore))
 	http.HandleFunc("/audio.wave", audioWave(ctx, &audioChannelStore))
 	http.HandleFunc("/video", video(ctx, &videoChannelStore))
